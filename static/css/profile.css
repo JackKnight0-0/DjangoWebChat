@@ -1,0 +1,23 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.profile-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.btn-edit {
+    width: 150px;
+    margin-top: 20px;
+}

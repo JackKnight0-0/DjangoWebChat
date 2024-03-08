@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link href="{% static 'css/profile.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+
+<div class="container mt-5" id="profile">
+
+    <div class="container">
+        {% for error in username_form.username.errors %}
+            <p class="alert alert-danger">{{ error }}</p>
+        {% endfor %}
+        {{ username_form.non_field_error }}
+        {% for error in email_form.email.errors %}
+            <p class="alert alert-danger">{{ error }}</p>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center profile-container">
+            {% if email_verified %}
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-outline-primary" href="{% url 'home' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-skip-backward-fill" viewBox="0 0 16 16">
+                            <path d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5"></path>
+                        </svg>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="container" style="position: relative">
+                <a data-bs-toggle="modal"
+                   data-bs-target="#editAvatarModal" class="btn btn-primary"
+                   style="position: absolute; left: 54%; top: 65%; z-index: 999; border-radius: 15px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-camera" viewBox="0 2 16 16">
+                        <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"></path>
+                        <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"></path>
+                    </svg>
+                </a>
+
+                <img src="{{ user.avatar.url }}" alt="User Avatar" class="avatar" style="position: relative">
+            </div>
+            <h2 class="mb-4">{{ user.username }}</h2>
+            {% if user.status.status == "online" %}
+                <p class="mb-4">Status: <span style="color: darkgreen">{{ user.status }}</span></p>
+            {% else %}
+                <p class="mb-4">Status: <span style="color: gray">{{ user.status }}</span></p>
+            {% endif %}
+            <div class="text-start">
+
+                <a data-bs-toggle="modal"
+                   data-bs-target="#editUsernameModal" style="padding-bottom: 20px">
+                    <strong>Name:</strong>
+                    <span style="color: dodgerblue">{{ user.username }}</span>
+                </a>
+                <a data-bs-toggle="modal"
+                   data-bs-target="#editEmailModal" style="padding-bottom: 20px">
+                    <p><strong>Email:</strong> <span style="color: dodgerblue">{{ user.email }}</span></p>
+                </a>
+                {% if not email_verified %}
+                    <p class="alert alert-danger">Your email is not confirmed!</p>
+                    <a id="send-email" class="btn btn-primary w-100">
+                        Send confirm mail
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUsernameModal" tabindex="-1" aria-labelledby="editUsernameModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUsernameModalLabel">Edit Username</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-3" method="post">{% csrf_token %}
+                    <label for="{{ username_form.username.id_for_label }}" class="form-label">New Username</label>
+                    {{ username_form.username }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmailModalLabel">Edit Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-3" method="post">{% csrf_token %}
+                    <label for="{{ email_form.email.id_for_label }}" class="form-label">New Email</label>
+                    {{ email_form.email }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editAvatarModal" tabindex="-1" aria-labelledby="editAvatarModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAvatarModalLabel">Edit Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="mb-3" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <label for="{{ avatar_form.avatar.id_for_label }}" class="form-label">Change Image</label>
+                    {{ avatar_form.avatar }}
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/global_websocket.js' %}"></script>
+{% if not email_verified %}
+    <script src="{% static 'js/profile.js' %}" type="module"></script>
+{% endif %}
+</html>

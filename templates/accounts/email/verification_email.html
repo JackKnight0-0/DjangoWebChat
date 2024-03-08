@@ -1,0 +1,7 @@
+<p>Dear {{ user.username }},</p>
+<p>Thank you for registering on our website. To complete the registration process, please confirm your email address by
+    clicking the link below:</p>
+<p><a href="{{ domain }}{% url 'email_verif' uidb64 token %}">Confirm Email Address</a></p>
+<p>If you did not register on our website, please ignore this email.</p>
+<p>Best regards,</p>
+<p>The Team at Our Website</p>

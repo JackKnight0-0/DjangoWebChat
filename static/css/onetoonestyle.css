@@ -1,0 +1,172 @@
+html, body {
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.chat-box {
+    background-color: #fff;
+    border-radius: 10px;
+    max-height: 80vh;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    scroll-behavior: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chat-header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+.chat-header h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.chat-header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: scroll;
+    max-height: 65vh;
+    min-height: 65vh;
+}
+
+.message-container {
+    display: flex;
+    justify-content: flex-start;
+    word-break: break-all;
+    flex-wrap: wrap;
+    margin: 3px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 50%;
+}
+
+.message-user {
+    background-color: #DCF8C6;
+    align-self: flex-end;
+    color: #000;
+    margin-left: auto;
+}
+
+.message-friend {
+    background-color: #EAEAEA;
+    align-self: flex-start;
+    color: #000;
+    margin-right: auto;
+}
+
+.message p {
+    margin: 0;
+}
+
+.message strong {
+    font-weight: bold;
+}
+
+.input-group {
+    width: 95%;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    margin-top: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .chat-box {
+        max-height: 70vh;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chat-header {
+        padding: 8px 16px;
+    }
+
+    .chat-header h4 {
+        font-size: 16px;
+    }
+
+    .chat-messages {
+        padding: 15px;
+    }
+
+    .message {
+        max-width: 70%;
+    }
+
+    .input-group input {
+        width: calc(100% - 20px);
+        margin: 0 10px;
+    }
+
+    .input-group button {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .chat-box {
+        max-height: 60vh;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chat-header {
+        padding: 8px 16px;
+    }
+
+    .chat-header h4 {
+        font-size: 16px;
+    }
+
+    .chat-messages {
+        padding: 15px;
+    }
+
+    .message {
+        max-width: 80%;
+    }
+
+    .input-group input {
+        width: calc(100% - 20px);
+        margin: 0 10px;
+    }
+
+    .input-group button {
+        width: 40px;
+        height: 40px;
+    }
+}

@@ -1,0 +1,22 @@
+{% extends '__base.html' %}
+{% load static %}
+{% block title %}Email Confirmation Success{% endblock title %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/email_from_key_done.css' %}">
+{% endblock extrastyle %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="confirmation-message">Email Confirmation Successful!</h1>
+                        <p class="mt-3">Thank you for confirming your email address.</p>
+                        <p>You can now access all features of our website.</p>
+                        <a href="{% url 'home' %}" class="btn btn-primary mt-3">Go to website!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

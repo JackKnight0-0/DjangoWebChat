@@ -1,0 +1,49 @@
+{% extends '__base.html' %}
+{% load static %}
+{% block extrastyle %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+{% endblock extrastyle %}
+{% block title %}Friends{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="container">
+            <ul class="list-group mt-3 d-flex">
+                <form method="get" class="align-self-center" style="width: 75vh">
+                    <input type="text" name="q" class="form-control" id="searchFriend" placeholder="Username"
+                           autocomplete="none">
+                </form>
+                {% if my_friends %}
+                    <h3>My friends</h3>
+                {% endif %}
+                {% for user in my_friends %}
+                    <li class="list-group-item m-3">
+                        <a href="{% url 'profile_detail' user.username %}" style="text-decoration: none; color: black">
+                            <div class="d-flex align-items-center justify-content-center">
+
+                                <img src="{{ user.avatar.url }}" alt="Avatar" class="avatar">
+                                <div class="flex-grow-1 ">
+                                    <h5 class="mb-0"><strong>
+                                        {{ user.username }}</strong>
+                                    </h5>
+
+                                </div>
+
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+        <div class="container" id="foundFriendContainer" style="display: none">
+            <h4 >Founded</h4>
+            <ul class="list-group mt-3" id="foundFriends">
+
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'js/find_friends.js' %}" type="module"></script>
+    <script src="{% static 'js/global_websocket.js' %}"></script>
+{% endblock js %}
